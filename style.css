@@ -1,0 +1,76 @@
+/* bug larghezza della finestra aperta dal pulsante like di facebook */
+.fb_iframe_widget span {
+	width: 450px!important;
+}
+
+.twitter-wrap {
+	float: left;
+	padding-top: 4px;	
+}
+
+.twitter-wrap iframe {
+	/*float: left;*/
+}
+
+.nylosia-social-container {
+	margin-bottom: 6px;
+}
+
+.nylosia-social-sprite {
+	display: inline-block;
+	width: 48px;
+	height: 48px;
+	background: url('images/socialbuttons.png') left top no-repeat;
+	position: relative;
+	opacity: 1.0;
+}
+
+.nylosia-social-sprite:hover {
+	opacity: 0.8;
+	transition-duration: 0.5s;
+	transition-timing-function: ease;	
+}
+
+.nylosia-social-sprite:after,
+.nylosia-social-sprite:before {
+	transition-duration: 0.2s;
+	transition-timing-function: ease;
+}
+
+.nylosia-social-sprite:after {
+	bottom: -32px;
+	background: #FFF;
+	font-size: 13px;
+	color: #333;
+	content: attr(data-nylosia-social-title);
+	display: block;
+	left: 0;
+	padding: 1px 0px;
+	position: absolute;
+	white-space: nowrap;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	z-index: 1;
+	width: 48px;
+	text-align: center;
+}
+
+.nylosia-social-sprite:before {
+	bottom: -6px;
+	left: 4px;
+	border: solid;
+	border-color: #FFF transparent;
+	border-width: 0px 5px 5px 5px;
+	content: "";
+	display: block;
+	position: absolute;
+	z-index: 2;
+}
+
+.nylosia-social-fb { }
+.nylosia-social-tw { background-position: -48px 0px; }
+.nylosia-social-in { background-position: -96px 0px; }
+.nylosia-social-gp { background-position: -144px 0px; }
+.nylosia-social-pi { background-position: -192px 0px; }
