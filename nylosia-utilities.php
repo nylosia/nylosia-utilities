@@ -203,9 +203,17 @@ function nylosia_pre_get_posts($wp_query) {
     }
 }
 
-//imposta cookie con id univoco per utente 
-add_action( 'init', 'nylosia_cookies' );
-function nylosia_cookies() {
+//init plugin
+add_action( 'init', 'nylosia_init' );
+function nylosia_init() {
+	//necessario per rendere disponibile a wp la nuova tabella
+	global $wpdb;
+	$type = 'nylosiarating_term';
+    $table_name = $wpdb->prefix . $type . 'meta';	
+    $variable_name = $type . 'meta';
+    $wpdb->$variable_name = $table_name;
+
+	//imposta cookie con id univoco per utente 
 	if (get_option('nylosia_rating')) {
 		$cookie_name = 'nylosia_rating_uid';
 		//se non esiste lo creo, se no aggiorno la scadenza
@@ -215,6 +223,86 @@ function nylosia_cookies() {
 	    	setcookie($cookie_name, $_COOKIE[$cookie_name], time() + 5184000); //60gg
 	    }
     }
-}
+} //end nylosia_init
+
+// //
+// add_action( 'wp_enqueue_scripts', 'nylosia_scripts' );
+// function nylosia_scripts(){
+//   wp_register_script( 'ajaxHandle', plugins_url( 'php/ajax.js.php' , dirname(__FILE__) ), array(), false, true );
+//   wp_enqueue_script( 'ajaxHandle' );
+//   wp_localize_script( 'ajaxHandle', 'nylosia_ajax', array( 'ajaxurl' => admin_url( 'admin_ajax.php' ) ) );
+// }
+
+add_action( 'wp_ajax_nylosia_manage_rating', 'nylosia_ajax_rating' );
+add_action( 'wp_ajax_nopriv_nylosia_manage_rating', 'nylosia_ajax_rating' );
+function nylosia_ajax_rating() {
+
+	header('Content-type: text/json');
+
+	//POST ?[userid=...&]postid=...&vote=...	-> aggiorno voto
+	//POST ?[userid=...&]postid=...			-> ritorna voto utente, numero totale di voti, media voti
+
+	//$_POST['action'] -> nome azione es: nylosia_manage_rating
+	//TODO differenziare per action se si volgiono gestire più azioni
+
+	$ny_r_meta_type = 'nylosiarating_term';
+	$cookie_name = 'nylosia_rating_uid';
+
+	//se non è specificato leggo l'utente dai cookie
+	if (isset($_POST['userid']) && !isempty($_POST['userid'])) {
+		$user_id = $_POST['userid'];
+	} else {
+		//se non esiste lo creo, se no aggiorno la scadenza
+		if (!isset($_COOKIE[$cookie_name])) {
+		    setcookie($cookie_name, get_unique_id(), time() + 5184000); //60gg
+		} else {
+			setcookie($cookie_name, $_COOKIE[$cookie_name], time() + 5184000); //60gg
+		}
+
+		$user_id = $_COOKIE[$cookie_name];
+	}
+
+	if (isset($_POST['postid'])) {
+		$post_id = $_POST['postid'];
+		$debug = 0;
+
+		if (isset($_POST['vote'])) {
+			$vote = $_POST['vote'];
+			//se il voto è positivo aggiorno, altrimenti cancello
+			if ($vote > 0) {
+				$resp = ( update_metadata( $ny_r_meta_type, $post_id, $user_id, $vote ) ? "true" : "false" );
+				$debug = "1".$resp;
+			} else {
+				$resp = ( delete_metadata( $ny_r_meta_type, $post_id, $user_id ) ? "true" : "false" );
+				$debug = "2".$resp;
+			}
+		}
+		
+		//ritorna sempre il riepilogo della situazione
+		$vote = get_metadata( $ny_r_meta_type, $post_id, $user_id, true );
+		$votes = get_metadata( $ny_r_meta_type, $post_id, '' );
+		$totratings = count($votes);
+		if ($totratings > 0) {
+			//$votes contiene un array con meta_key=array di valori
+			//	es: ['5390d88ed310f' => [3]]
+			//in questo caso considero che per ogni meta_key (userid) ci sia un solo valore (voto)
+			$sum = 0;
+			foreach ($votes as $key => $value) {
+				$sum += $value[0];
+			}
+			$avg = $sum / count($votes);
+			$debug = "3;".array_sum($votes).";".count($votes);
+		} else {
+			$avg = 0;
+			$debug = "4";
+		}
+
+		echo "{ \"debug\": \"{$debug}\", \"postid\": \"{$post_id}\", \"userid\": \"{$user_id}\", \"vote\": \"{$vote}\", \"totratings\": {$totratings}, \"avg\": {$avg} }";
+	} else {
+		echo "{ \"postid\": undefined, \"userid\": \"{$user_id}\" }";
+	}
+
+	wp_die(); // ajax call must die to avoid trailing 0 in your response
+} //end nylosia_ajax_rating
 
 ?>

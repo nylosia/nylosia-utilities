@@ -317,19 +317,27 @@ class NylosiaRatingWidget extends WP_Widget
 	    	}
 
 	    	function updateRating(postid, value, el) {
-	    // 		jQuery.ajax({
-	    // 			url: "rating-func.php?postid=" + postid + "&vote=" + value,
-	    // 			dataType: "json"
-	    // 		}).done(function (data) {
-	    // 			//console.log(data);
+	    		jQuery.ajax({
+	    			url: "<?php echo admin_url( 'admin-ajax.php' ) ?>",
+	    			type: "POST",
+	    			data: {
+	    				"action": "nylosia_manage_rating",
+						"postid": postid,
+						"vote": value
+	    			},
+	    			dataType: "json"
+	    		}).done(function (data) {
+	    			// console.log("updateRating", data);
 
-					// if (data.totratings && data.totratings > 2) {
-					// 	jQuery(".nylosia-rating-history", el).html(data.totratings + " voti, " + Math.ceil(data.avg) + " di media")
-					// }
+					if (data.totratings && data.totratings > 1) {
+						jQuery(".nylosia-rating-history", el).html(data.totratings + " voti, " + Math.ceil(data.avg) + " di media")
+					} else {
+						jQuery(".nylosia-rating-history", el).empty();
+					}
 
-	    // 		}).fail(function() {
-	    // 			//console.log("fail", arguments)
-	    // 		})
+	    		}).fail(function() {
+	    			//console.log("fail", arguments)
+	    		})
 	    	}
 
 	    	jQuery(function() {
@@ -337,25 +345,30 @@ class NylosiaRatingWidget extends WP_Widget
 	    		//valutazione utente
 	    		jQuery(".nylosia-rating-container").each(function(index, el) {
 
-	    	// 		//leggo il valore
-		    // 		jQuery.ajax({
-		    // 			url: "rating-func.php?postid=" + jQuery(el).attr("data-post-id"),
-		    // 			dataType: "json"
-		    // 		}).done(function (data) {
-		    // 			//console.log(data);
+	    			//leggo il valore
+		    		jQuery.ajax({
+		    			url: "<?php echo admin_url( 'admin-ajax.php' ) ?>",
+		    			type: "POST",
+		    			data: {
+		    				"action": "nylosia_manage_rating",
+							"postid": jQuery(el).attr("data-post-id")
+		    			},
+		    			dataType: "json"
+		    		}).done(function (data) {
+		    			// console.log('data', data);
 
-		    // 			if (data.vote) {
-						// 	jQuery(el).attr("data-rating", data.vote);
-						// 	renderRatingValue(el, data.vote);
-						// }
+		    			if (data.vote) {
+							jQuery(el).attr("data-rating", data.vote);
+							renderRatingValue(el, data.vote);
+						}
 
-						// if (data.totratings && data.totratings > 2) {
-						// 	jQuery(".rating-history", el).html(data.totratings + " voti, " + Math.ceil(data.avg) + " di media")
-						// }
+						if (data.totratings && data.totratings > 1) {
+							jQuery(".nylosia-rating-history", el).html(data.totratings + " voti, " + Math.ceil(data.avg) + " di media")
+						}
 
-		    // 		}).fail(function() {
-		    // 			//console.log("fail", arguments);
-		    // 		});
+		    		}).fail(function() {
+		    			// console.log("fail", arguments);
+		    		});
 
 		    		//quondo esco dal contenitore ripristino il voto
 					jQuery(el).mouseleave(function() {
@@ -370,15 +383,15 @@ class NylosiaRatingWidget extends WP_Widget
 					})
 					.click(function() {
 						var value = jQuery(this).attr("data-star");
-						var jQueryrecipe = jQuery(el);
+						var recipe = jQuery(el);
 						//se seleziono nuovamente la stessa stella tolgo il voto
-						if (jQueryrecipe.attr("data-rating") == value) {
+						if (recipe.attr("data-rating") == value) {
 							value = 0;
 						}
 
-						jQueryrecipe.attr("data-rating", value);
+						recipe.attr("data-rating", value);
 						//aggiorno il voto
-						updateRating(jQueryrecipe.attr("data-post-id"), value, el);
+						updateRating(recipe.attr("data-post-id"), value, el);
 
 						return false;	
 					});
