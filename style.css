@@ -12,6 +12,8 @@
 	/*float: left;*/
 }
 
+/** NylosiaSocialWidget **/
+
 .nylosia-social-container {
 	margin-bottom: 6px;
 }
@@ -74,3 +76,26 @@
 .nylosia-social-in { background-position: -96px 0px; }
 .nylosia-social-gp { background-position: -144px 0px; }
 .nylosia-social-pi { background-position: -192px 0px; }
+
+/** NylosiaRatingWidget **/
+
+.nylosia-rating-container { }
+
+.nylosia-rating-star { display: inline-block; width: 24px; height: 24px; background: url('images/ratingv.png'); }
+.nylosia-rating-star-1 { -webkit-transition: background .3s; transition: background .3s; }
+.nylosia-rating-star-2 { -webkit-transition: background .4s; transition: background .4s; }
+.nylosia-rating-star-3 { -webkit-transition: background .5s; transition: background .5s; }
+.nylosia-rating-star-4 { -webkit-transition: background .6s; transition: background .6s; }
+.nylosia-rating-star-5 { -webkit-transition: background .7s; transition: background .7s; }
+
+/*.nylosia-rating-star-1 { -webkit-transition: none; transition: none; }
+.nylosia-rating-star-2 { -webkit-transition: none; transition: none; }
+.nylosia-rating-star-3 { -webkit-transition: none; transition: none; }
+.nylosia-rating-star-4 { -webkit-transition: none; transition: none; }
+.nylosia-rating-star-5 { -webkit-transition: none; transition: none; }*/
+
+.nylosia-rating-star-full { background-position: 0 24px; }
+.nylosia-rating-star-half { background-position: 0 48px; }
+
+.nylosia-rating-caption { display: inline-block; line-height: 24px; vertical-align: top; margin-left: 10px; }
+.nylosia-rating-history { font-size: 0.7em; }

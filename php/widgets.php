@@ -4,6 +4,16 @@
  * NYLOSIA WIDGETS
  */
 
+// register widgets
+add_action( 'widgets_init', 'register_nylosia_widgets' );
+function register_nylosia_widgets() {
+    register_widget( 'NylosiaSocialWidget' );
+    register_widget( 'NylosiaRatingWidget' );
+}
+
+/**
+ *
+ */
 class NylosiaSocialWidget extends WP_Widget
 {
 
@@ -210,10 +220,179 @@ class NylosiaSocialWidget extends WP_Widget
 
 } //end NylosiaSocialWidget
 
-// register NylosiaSocialWidget
-add_action( 'widgets_init', 'register_nylosia_social_widget' );
-function register_nylosia_social_widget() {
-    register_widget( 'NylosiaSocialWidget' );
-}
+/**
+ *
+ */
+class NylosiaRatingWidget extends WP_Widget
+{
+
+	function NylosiaRatingWidget() {
+    	$widget_ops = array('classname' => 'NylosiaRatingWidget', 'description' => 'Add nylosia rating widget' );
+		$control_ops = array('width' => 350, 'height' => 350);
+		$this->WP_Widget('NylosiaRatingWidget', 'Nylosia Rating Widget', $widget_ops, $control_ops); //base id, name, args
+	}
+
+	/**
+	 * Back-end widget form.
+	 *
+	 * @see WP_Widget::form()
+	 *
+	 * @param array $instance Previously saved values from database.
+	 */
+	function form($instance) {
+		$instance = wp_parse_args( (array) $instance, array( 'rating_title' => 'Vota' ) );
+		$rating_title = $instance['rating_title'];
+		
+		?>
+
+		<div>
+			<p><label for="<?php echo $this->get_field_id('rating_title'); ?>">Titolo:</label> <input class="widefat" id="<?php echo $this->get_field_id('rating_title'); ?>" name="<?php echo $this->get_field_name('rating_title'); ?>" type="text" value="<?php echo esc_attr($rating_title); ?>"></p>			
+		</div>
+
+		<?php
+	} //end form
+
+	/**
+	 * Sanitize widget form values as they are saved.
+	 *
+	 * @see WP_Widget::update()
+	 *
+	 * @param array $new_instance Values just sent to be saved.
+	 * @param array $old_instance Previously saved values from database.
+	 *
+	 * @return array Updated safe values to be saved.
+	 */
+	public function update( $new_instance, $old_instance ) {
+	    $instance = $old_instance;
+	    $instance['rating_title'] = $new_instance['rating_title'];
+	    return $instance;
+	}
+
+	/**
+	 * Front-end display of widget.
+	 *
+	 * @see WP_Widget::widget()
+	 *
+	 * @param array $args     Widget arguments.
+	 * @param array $instance Saved values from database.
+	 */
+	public function widget( $args, $instance ) {
+
+		$id = get_the_ID();
+
+		echo $args['before_widget'].$args['before_title'].$instance['rating_title'].$args['after_title'];
+		?>
+
+		<div class="nylosia-rating-container" data-post-id="<?php echo $id ?>" data-rating="0">
+			<a href="#" class="nylosia-rating-star nylosia-rating-star-1" data-star="1" title="seleziona per assegnare 1 stella all'articolo"></a>
+			<a href="#" class="nylosia-rating-star nylosia-rating-star-2" data-star="2" title="seleziona per assegnare 2 stelle all'articolo"></a>
+			<a href="#" class="nylosia-rating-star nylosia-rating-star-3" data-star="3" title="seleziona per assegnare 3 stelle all'articolo"></a>
+			<a href="#" class="nylosia-rating-star nylosia-rating-star-4" data-star="4" title="seleziona per assegnare 4 stelle all'articolo"></a>
+			<a href="#" class="nylosia-rating-star nylosia-rating-star-5" data-star="5" title="seleziona per assegnare 5 stelle all'articolo"></a>
+			<span class="nylosia-rating-caption"></span>
+			<br>
+			<span class="nylosia-rating-history"></span>			
+		</div>
+		<?php echo $args['after_widget'] ?>
+
+		<script>
+
+	    	function renderRatingValue(el, value) {
+	    		if (value == undefined) {
+	    			value = jQuery(el).attr("data-rating");
+	    		}
+
+	    		//aggiorno descrizione voto
+	    		var captions = ["", "pessimo", "scarso", "nella media", "molto buono", "eccellente"];
+	    		jQuery(".nylosia-rating-caption", el).html(captions[value]);
+
+	    		//
+				jQuery("a", el).each(function(index, el) {
+					if ( jQuery(el).attr("data-star") <= value) {
+						jQuery(el).addClass("nylosia-rating-star-full");
+					} else {
+						jQuery(el).removeClass("nylosia-rating-star-full");
+					}
+				});
+	    	}
+
+	    	function updateRating(postid, value, el) {
+	    // 		jQuery.ajax({
+	    // 			url: "rating-func.php?postid=" + postid + "&vote=" + value,
+	    // 			dataType: "json"
+	    // 		}).done(function (data) {
+	    // 			//console.log(data);
+
+					// if (data.totratings && data.totratings > 2) {
+					// 	jQuery(".nylosia-rating-history", el).html(data.totratings + " voti, " + Math.ceil(data.avg) + " di media")
+					// }
+
+	    // 		}).fail(function() {
+	    // 			//console.log("fail", arguments)
+	    // 		})
+	    	}
+
+	    	jQuery(function() {
+
+	    		//valutazione utente
+	    		jQuery(".nylosia-rating-container").each(function(index, el) {
+
+	    	// 		//leggo il valore
+		    // 		jQuery.ajax({
+		    // 			url: "rating-func.php?postid=" + jQuery(el).attr("data-post-id"),
+		    // 			dataType: "json"
+		    // 		}).done(function (data) {
+		    // 			//console.log(data);
+
+		    // 			if (data.vote) {
+						// 	jQuery(el).attr("data-rating", data.vote);
+						// 	renderRatingValue(el, data.vote);
+						// }
+
+						// if (data.totratings && data.totratings > 2) {
+						// 	jQuery(".rating-history", el).html(data.totratings + " voti, " + Math.ceil(data.avg) + " di media")
+						// }
+
+		    // 		}).fail(function() {
+		    // 			//console.log("fail", arguments);
+		    // 		});
+
+		    		//quondo esco dal contenitore ripristino il voto
+					jQuery(el).mouseleave(function() {
+						renderRatingValue(el, jQuery(this).attr("data-rating"));
+					});
+
+		    		jQuery("a", el)
+					.hover(function() {
+						//aggiorno il voto ma solo graficamente
+						var value = jQuery(this).attr("data-star");
+						renderRatingValue(el, value);
+					})
+					.click(function() {
+						var value = jQuery(this).attr("data-star");
+						var jQueryrecipe = jQuery(el);
+						//se seleziono nuovamente la stessa stella tolgo il voto
+						if (jQueryrecipe.attr("data-rating") == value) {
+							value = 0;
+						}
+
+						jQueryrecipe.attr("data-rating", value);
+						//aggiorno il voto
+						updateRating(jQueryrecipe.attr("data-post-id"), value, el);
+
+						return false;	
+					});
+
+	    		});
+
+	    	});
+
+		</script>
+
+		<?php
+	}
+
+} //end NylosiaRatingWidget
+
 
 ?>
