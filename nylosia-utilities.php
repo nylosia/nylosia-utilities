@@ -167,9 +167,12 @@ function nylosia_social_add_meta() {
 			$fbpicutre_url = $fbpicutre_attr[0];
 		} else {
 			$fbpicutre_url = $fbpicture;
-		}		
+		}
+
+		//fb:lang serve solo a me per caricare lo script di FB localizzato
 	?>
 	  	<meta property="fb:app_id" content="<?php echo get_option('nylosia_fb_appid') ?>">
+	  	<meta property="fb:lang" content="<?php echo get_option('nylosia_fb_lang') ?>">
 	  	<meta property="og:site_name" content="<?php echo get_bloginfo('name') ?>">
 	  	<meta property="og:title" content="<?php echo (get_the_title() ? get_the_title() : get_bloginfo('name')) ?>">
 	  	<meta property="og:description" content="<?php echo get_bloginfo('description') ?>">
@@ -184,9 +187,13 @@ function nylosia_social_add_meta() {
 } //end nylosia_social_add_meta
 
 //funzione per aggiungere il css
-add_action( 'wp_enqueue_scripts', 'nylosia_utilities_css' );
-function nylosia_utilities_css() {
+add_action( 'wp_enqueue_scripts', 'nylosia_utilities_scripts' );
+function nylosia_utilities_scripts() {
+	//style
     wp_enqueue_style( 'nylosia_utilities_css', plugins_url('/style.css', __FILE__) );
+	//js nel footer
+	wp_register_script( 'nylosia-js', plugins_url('/nylosia.js', __FILE__), false, false, true );
+	wp_enqueue_script( 'nylosia-js' );
 }
 
 //ordina i post nei riepiloghi in base al campo personalizzato priority
@@ -225,14 +232,7 @@ function nylosia_init() {
     }
 } //end nylosia_init
 
-// //
-// add_action( 'wp_enqueue_scripts', 'nylosia_scripts' );
-// function nylosia_scripts(){
-//   wp_register_script( 'ajaxHandle', plugins_url( 'php/ajax.js.php' , dirname(__FILE__) ), array(), false, true );
-//   wp_enqueue_script( 'ajaxHandle' );
-//   wp_localize_script( 'ajaxHandle', 'nylosia_ajax', array( 'ajaxurl' => admin_url( 'admin_ajax.php' ) ) );
-// }
-
+//rating
 add_action( 'wp_ajax_nylosia_manage_rating', 'nylosia_ajax_rating' );
 add_action( 'wp_ajax_nopriv_nylosia_manage_rating', 'nylosia_ajax_rating' );
 function nylosia_ajax_rating() {
