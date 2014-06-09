@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Glossay</title>
+
+    <style>
+		
+		@media screen {
+			.cpcover { display: none; }
+		}
+
+		body { color: #444; font-family: helvetica; }
+
+		.cpcover { position: absolute; right: 0; font-size: 3em; padding: 10px; }
+
+		.glossary {  }
+
+		.glossary-labels { 
+			float: left; 
+			padding-top: 10px;
+		}
+
+		.glossary-labels a {
+			display: block; 
+			width: 40px; 
+			height: 30px; 
+			line-height: 30px; 
+			text-align: center; 
+			margin-top: 4px; 
+			margin-left: 0px;
+			text-decoration: none; 
+			color: #333; 
+			border-left: solid 1px #ddd; 
+			border-top: solid 1px #ddd; 
+			border-bottom: solid 1px #ddd; 
+			border-radius: 4px 0px 0px 4px;
+		}
+
+		.glossary-labels a:hover {
+			width: 36px;
+			margin-left: 4px;
+		}
+
+		.glossary-labels .selected {
+			background-color: #333;
+			color: #fff;
+		}
+
+		.glossary-content { 
+			/*max-width: 600px;*/
+			min-height: 300px;
+			/*float: left; */
+			padding: 4px;
+			box-shadow: -5px 0 5px -5px #333;
+			padding-left: 10px;
+			margin-left: 41px;
+			line-height: 1.6em;
+			position: relative;
+		}
+
+		.glossary-content .label {
+			font-weight: 700;
+		}
+
+		.glossary-content .more {
+			font-size: 0.8em;
+			margin-right: 4px;
+		}
+
+		.glossary-content .key {
+			font-size: 0.8em;
+			display: block;
+			width: 20px;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.glossary-content .key-section {
+			border-bottom: solid 1px #eee;
+			padding: 10px;
+		}
+
+    </style>
+  </head>
+
+  <body>
+  	<span class="cpcover">www.zucchetti.it</span>
+
+  	<p>prima</p>
+
+	<div class="glossary">
+		<div class="glossary-labels"></div>
+		<div class="glossary-content"></div>
+	</div>
+	<div style="clear:both"></div>
+
+	<p>dopo</p>
+
+
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+    	$(function(){
+
+			var data = {
+				'A': {
+					'a': {
+						caption: 'azioni',
+						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
+						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+					},
+					'append': {
+						caption: '',
+						description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.',
+						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+					}
+				},
+				'B': {
+					'bottom': {
+						caption: 'azioni',
+						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
+						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+					},
+					'bundle': {
+						caption: '',
+						description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.',
+						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+					}
+				},				
+				'R': {
+					'round': {
+						caption: '',
+						description: 'Quisque congue orci dolor, et convallis magna luctus sit amet. Nam eros felis, ultricies vel mauris sit amet, consectetur porttitor odio. Maecenas porttitor mattis augue at bibendum. Pellentesque ultrices, erat id ornare tristique, lectus neque ultricies odio, in venenatis diam turpis sit amet arcu.',
+						ref: [ ['99', 'pseudo codice'] ]
+					}
+				},
+				'%': {
+					'%': {
+						caption: 'percentuale',
+						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan felis vel condimentum adipiscing. Nullam lobortis vehicula est, rhoncus aliquet magna luctus non.',
+						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+					}
+				}
+			};
+
+			//preparo etichette
+			for (var lbl in data) {
+				$(".glossary-labels").append(
+					$("<a href='#'>").html(lbl).click( function() {
+						var lbl = $(this).html();
+
+						$(".glossary-labels a").removeClass("selected");
+						$(this).addClass("selected");
+
+						$(".glossary-content section, .glossary-content section .key").hide();
+						$(".glossary-content section[data-glossary-group=\"" + lbl + "\"]").show();
+					})
+				);
+
+				//creo la sezione
+				var sect = $("<section>").attr("data-glossary-group", lbl)
+					.hide();
+
+				$("<span>").addClass("key").html(lbl).hide().appendTo( sect );
+
+				for (var key in data[lbl]) {
+					var par = $("<p class='key-section'>");
+					par.append( $("<span>").addClass("label").html(key) );
+
+					if (data[lbl][key].caption) {
+						par.append(" - " + data[lbl][key].caption);
+					}
+						
+					par.append("<br>").append( data[lbl][key].description );
+
+					if (data[lbl][key].ref) {
+						par.append("<br>")
+						for (var ii=0; ii<data[lbl][key].ref.length; ii++) {
+							par.append( $("<a class='more'>").html(data[lbl][key].ref[ii][1]).attr("href", "?p=" + data[lbl][key].ref[ii][0]) );
+						}
+					}
+					
+					par.appendTo( sect );
+				}
+
+				$(".glossary-content").append(sect);
+			}
+
+			//etichetta per vedere tutto
+			$(".glossary-labels").append(
+				$("<a href='#'><small>tutto</small></a>").click( function() {
+					$(".glossary-labels a").removeClass("selected");
+					$(this).addClass("selected");
+
+					$(".glossary-content section, .glossary-content section .key").show();
+				})
+			);			
+
+			//seleziono la prima
+			$(".glossary-labels a:last-child").trigger("click");
+    	})
+    </script>
+  </body>
+</html>
+
