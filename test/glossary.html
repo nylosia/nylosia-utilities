@@ -136,6 +136,7 @@
 			vertical-align: baseline;
 		}
 
+<<<<<<< HEAD
 		/** s2 **/
 
 		.s2 .glossary-labels a {
@@ -174,24 +175,36 @@
 			background-color: #333;
 			color: #fff;
 		}		
+=======
+>>>>>>> origin/master
 
     </style>
   </head>
 
   <body>
-  	<span class="cpcover">www.zucchetti.it</span>
+  	<span class="cpcover">www.nylosia.it</span>
 
   	<div class="solutions">
+<<<<<<< HEAD
   		<h1>Zucchetti</h1>
+=======
+  		<h1>Nylosia</h1>
+>>>>>>> origin/master
   	</div>
 
 	<div class="cover_bkg"> </div>
 
 	<div class="solutions">
 
+<<<<<<< HEAD
 	  	<p>prima <a href="#" onclick="$('.glossary').toggleClass('s2'); return false;">toggle s2</a></p>
 
 		<div class="glossary s2">
+=======
+	  	<p>prima</p>
+
+		<div class="glossary">
+>>>>>>> origin/master
 			<div class="glossary-border"></div>
 			<div class="glossary-labels"></div>
 			<div class="glossary-content"></div>
@@ -227,7 +240,11 @@
 			},
 			'B': {
 				'bottom': {
+<<<<<<< HEAD
 					caption: 'bottom bounds',
+=======
+					caption: 'azioni',
+>>>>>>> origin/master
 					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
 					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
 				},
@@ -249,6 +266,7 @@
 					caption: 'percentuale',
 					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan felis vel condimentum adipiscing. Nullam lobortis vehicula est, rhoncus aliquet magna luctus non.',
 					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+<<<<<<< HEAD
 				}
 			}
 		};
@@ -295,6 +313,54 @@
 						par.append( $("<a class='glossary-more'>").html(items[key].ref[ii][1]).attr("href", "?p=" + items[key].ref[ii][0]) );
 					}
 				}
+=======
+				}
+			}
+		};
+
+		data = {};
+		var aa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ%".split("");
+		for (var ii=0; ii<aa.length; ii++) {
+			var label = aa[ii];
+			data[label] = {};
+			data[label]['voce_' + label] = {
+				caption: '',
+				description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.'
+			};
+		}
+
+		function getGlossaryLabels() {
+			//TODO leggere etichette via ajax
+			var lbls = [];
+			for (var aa in data) {
+				lbls.push(aa);
+			}
+			return lbls;
+		}
+
+		function getGlossaryItems(label) {
+			//TODO leggere voci via ajax
+			return data[label];
+		}
+
+		function appendGlossaryItems(items, sect) {
+			for (var key in items) {
+				var par = $("<p class='glossary-key-section'>");
+				par.append( $("<span>").addClass("glossary-title").html(key) );
+
+				if (items[key].caption) {
+					par.append(" - " + items[key].caption);
+				}
+					
+				par.append("<br>").append( items[key].description );
+
+				if (items[key].ref) {
+					par.append("<br>")
+					for (var ii=0; ii<items[key].ref.length; ii++) {
+						par.append( $("<a class='glossary-more'>").html(items[key].ref[ii][1]).attr("href", "?p=" + items[key].ref[ii][0]) );
+					}
+				}
+>>>>>>> origin/master
 				
 				par.appendTo( sect );
 			}			
