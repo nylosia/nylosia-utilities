@@ -64,7 +64,7 @@ function nylosiaCountFBShare(el, url) {
 		dataType: 'json'
 	}).done(function(data) {
 		if(data.shares) {
-			jQuery(el).attr("data-nylosia-social-title", data.shares);
+			jQuery(el).attr("data-nylosia-social-count", data.shares);
 		}
 	});	 			
 }
@@ -76,7 +76,7 @@ function nylosiaCountTWShare(el, url) {
 		dataType: 'json'
 	}).done(function(data) {
 		if(data.shares) {
-			jQuery(el).attr("data-nylosia-social-title", data.shares);
+			jQuery(el).attr("data-nylosia-social-count", data.shares);
 		}
 	});	 			
 }
@@ -99,38 +99,70 @@ function nylosiaSocialGPShare(el, url) {
 	window.open('https://plus.google.com/share?url=' + url, '', 'toolbar=0,status=0,width=548,height=325');
 }
 
+function nylosiaSocialINShare(el, url, title, summary, source) {
+	window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + url + '&title=' + title + '&summary=' + summary + '&source=' + source, '', 'toolbar=0,status=0,width=520,height=570');
+}
+
+function nylosiaSocialPIShare(el, url, media, description) {
+	window.open('//www.pinterest.com/pin/create/button/?url=' + url + '&media=' + media + '&description=' + description, '', 'toolbar=0,status=0,width=548,height=325');
+	//www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fkentbrew%2F6851755809%2F&media=http%3A%2F%2Ffarm8.staticflickr.com%2F7027%2F6851755809_df5b2051c9_z.jpg&description=Next%20stop%3A%20Pinterest
+}
+
 jQuery(function() {
 
 	//social
-	var fblang = jQuery('meta[property="fb:lang"]').attr('content');
+	var locale = jQuery('meta[property="og:locale"]').attr('content');
+	var sitename = jQuery('meta[property="og:site_name"]').attr('content');
+	var image = encodeURIComponent(jQuery('meta[property="og:image"]').attr('content'));
+	var url = encodeURIComponent(jQuery('meta[property="og:url"]').attr('content'));
+	var title = jQuery('meta[property="og:title"]').attr('content');
+	var twuser = jQuery('meta[property="twitter:site"]').attr('content');
 
 	(function(d, s, id){
 	 var js, fjs = d.getElementsByTagName(s)[0];
 	 if (d.getElementById(id)) {return;}
 	 js = d.createElement(s); js.id = id;
-	 js.src = "http://connect.facebook.net/" + fblang + "/sdk.js";
+	 js.src = "http://connect.facebook.net/" + locale + "/sdk.js";
 	 fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 
+	// (function(d, s, id){
+	//  var js, fjs = d.getElementsByTagName(s)[0];
+	//  if (d.getElementById(id)) {return;}
+	//  js = d.createElement(s); js.id = id;
+	//  js.src = "//assets.pinterest.com/js/pinit.js";
+	//  fjs.parentNode.insertBefore(js, fjs);
+	// }(document, 'script', 'pinterest-jssdk'));
+
 	jQuery(".nylosia-social-container .nylosia-social-fb").each(function(index, el) {
-		nylosiaCountFBShare(el, jQuery(el).attr("data-link"));
+		nylosiaCountFBShare(el, url);
 	}).click(function() {
-		nylosiaSocialFBShare(this, jQuery(this).attr("data-link"));
+		nylosiaSocialFBShare(this, url);
 	});
 
 	jQuery(".nylosia-social-container .nylosia-social-tw").each(function(index, el) {
-		nylosiaCountTWShare(el, jQuery(el).attr("data-link"));
+		nylosiaCountTWShare(el, url);
 	}).click(function() {
-		nylosiaSocialTWShare(this, jQuery(this).attr("data-link"), jQuery(this).attr("data-twuser"), jQuery(this).attr("data-twtext"));
+		nylosiaSocialTWShare(this, url, twuser, title);
 	});
 
 	jQuery(".nylosia-social-container .nylosia-social-gp").each(function(index, el) {
-		//TODO nylosiaCountGPShare(el, jQuery(el).attr("data-link"));
+		//TODO nylosiaCountGPShare(el, url);
 	}).click(function() {
-		nylosiaSocialGPShare(this, jQuery(this).attr("data-link"));
+		nylosiaSocialGPShare(this, url);
 	});
 
-	//TODO linkedin e pinterest
+	jQuery(".nylosia-social-container .nylosia-social-in").each(function(index, el) {
+		//TODO nylosiaCountGPShare(el, url);
+	}).click(function() {
+		nylosiaSocialINShare(this, url, sitename, title, sitename);
+	});
+
+	jQuery(".nylosia-social-container .nylosia-social-pi").each(function(index, el) {
+		//TODO nylosiaCountGPShare(el, url);
+	}).click(function() {
+		nylosiaSocialPIShare(this, url, image, title);
+	});
 
 	//valutazione utente
 	jQuery(".nylosia-rating-container").each(function(index, el) {

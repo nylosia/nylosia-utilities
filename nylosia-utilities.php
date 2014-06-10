@@ -60,6 +60,7 @@ function nylosia_plugin_options() {
 	$nylosia_fb_appid = get_option('nylosia_fb_appid');
 	$nylosia_fb_lang = get_option('nylosia_fb_lang');
 	$nylosia_fb_picture = get_option('nylosia_fb_picture');
+	$nylosia_fb_pusblisher = get_option('nylosia_fb_pusblisher');
 	$nylosia_add_og = get_option('nylosia_add_og');
 	$nylosia_tw_user = get_option('nylosia_tw_user');
 	$nylosia_posts_order = get_option('nylosia_posts_order');
@@ -90,6 +91,10 @@ function nylosia_plugin_options() {
 						<td><input type="text" class="regular-text" id="nylosia_fb_picture" name="nylosia_fb_picture" value="<?php echo esc_attr($nylosia_fb_picture) ?>">
 							<p class="description">Indicare l'id dell'immagine o l'url da mostrare nella finestra del feed se non &egrave; stata impostata <strong>l'immagine in evidenza</strong> nel post.</p>
 						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="nylosia_fb_pusblisher">Facebook Publisher</label></th>
+						<td><input type="text" class="regular-text" id="nylosia_fb_pusblisher" name="nylosia_fb_pusblisher" value="<?php echo esc_attr($nylosia_fb_pusblisher) ?>"></td>
 					</tr>
 					<tr>
 						<th scope="row">Open Graph meta tags</th>
@@ -146,7 +151,7 @@ function nylosia_plugin_options() {
 			</table>			
 
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="nylosia_fb_appid,nylosia_fb_lang,nylosia_fb_picture,nylosia_add_og,nylosia_tw_user,nylosia_posts_order,nylosia_posts_order_meta,nylosia_rating" />
+			<input type="hidden" name="page_options" value="nylosia_fb_appid,nylosia_fb_lang,nylosia_fb_picture,nylosia_fb_pusblisher,nylosia_add_og,nylosia_tw_user,nylosia_posts_order,nylosia_posts_order_meta,nylosia_rating" />
 			<p class="submit">
 				<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" /> 
 			</p>
@@ -169,15 +174,27 @@ function nylosia_social_add_meta() {
 			$fbpicutre_url = $fbpicture;
 		}
 
-		//fb:lang serve solo a me per caricare lo script di FB localizzato
+	  	//TODO vedere meta per altri social
+	  	//	ottimizzare uso variabili
+	  	//	inserire meta solo se necessario
+
 	?>
 	  	<meta property="fb:app_id" content="<?php echo get_option('nylosia_fb_appid') ?>">
-	  	<meta property="fb:lang" content="<?php echo get_option('nylosia_fb_lang') ?>">
+	  	<meta property="og:locale" content="<?php echo get_option('nylosia_fb_lang') ?>">
+	  	<meta property="og:type" content="article">
 	  	<meta property="og:site_name" content="<?php echo get_bloginfo('name') ?>">
 	  	<meta property="og:title" content="<?php echo (get_the_title() ? get_the_title() : get_bloginfo('name')) ?>">
 	  	<meta property="og:description" content="<?php echo get_bloginfo('description') ?>">
 	  	<meta property="og:image" content="<?php echo $fbpicutre_url ?>">
 	  	<meta property="og:url" content="<?php echo get_current_URL() ?>">
+	  	<meta property="article:publisher" content="<?php echo get_option('nylosia_fb_pusblisher') ?>">
+		
+		<meta name="twitter:card" content="summary_large_image">
+	  	<meta name="twitter:site" content="@<?php echo get_option('nylosia_tw_user') ?>">
+		<meta name="twitter:creator" content="@<?php echo get_option('nylosia_tw_user') ?>">
+		<meta name="twitter:title" content="<?php echo (get_the_title() ? get_the_title() : get_bloginfo('name')) ?>">
+		<meta name="twitter:description" content="<?php echo get_bloginfo('description') ?>">
+		<meta name="twitter:image:src" content="<?php echo $fbpicutre_url ?>">
 	<?php
 
 	  	// <meta property="og:type" content="article">

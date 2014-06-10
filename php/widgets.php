@@ -98,25 +98,25 @@ class NylosiaSocialWidget extends WP_Widget
 
 		//info sulla pagina
 		//$link = wp_get_shortlink();
-		$link = get_permalink();
-		$name = get_bloginfo('name');
-		$slogan = get_bloginfo('description');
-		$page_title = get_the_title();
+		//$link = get_permalink();
+		//$name = get_bloginfo('name');
+		//$slogan = get_bloginfo('description');
+		//$page_title = get_the_title();
 		//facebook
-		$fbappid = get_option('nylosia_fb_appid');
-		$fblang = get_option('nylosia_fb_lang');
-		$fbpicture = get_option('nylosia_fb_picture');
-		if( is_numeric($fbpicture) ) {
-			//restituisce url, larghezza, altezza, true se icona
-			$fbpicutre_attr = wp_get_attachment_image_src( $fbpicture );
-			$fbpicutre_url = $fbpicutre_attr[0];
-		} else {
-			$fbpicutre_url = $fbpicture;
-		}
-		$twuser = get_option('nylosia_tw_user');
-		if ( $twuser ) {
-			$twvia = '&via='.$twuser;
-		}
+		//$fbappid = get_option('nylosia_fb_appid');
+		//$fblang = get_option('nylosia_fb_lang');
+		// $fbpicture = get_option('nylosia_fb_picture');
+		// if( is_numeric($fbpicture) ) {
+		// 	//restituisce url, larghezza, altezza, true se icona
+		// 	$fbpicutre_attr = wp_get_attachment_image_src( $fbpicture );
+		// 	$fbpicutre_url = $fbpicutre_attr[0];
+		// } else {
+		// 	$fbpicutre_url = $fbpicture;
+		// }
+		//$twuser = get_option('nylosia_tw_user');
+		// if ( $twuser ) {
+		// 	$twvia = '&via='.$twuser;
+		// }
 
 		echo $args['before_widget'].$args['before_title'].$instance['social_title'].$args['after_title'];
 		?>
@@ -124,19 +124,19 @@ class NylosiaSocialWidget extends WP_Widget
 		<div class="nylosia-social-container">
 		<?php 
 		if ($instance['show_fb']) { ?>
-			<a href="#" class="nylosia-social-sprite nylosia-social-fb" data-link="<?php echo esc_url($link) ?>" data-nylosia-social-title="0"></a>
+			<a href="#" class="nylosia-social-sprite nylosia-social-fb" data-nylosia-social-count="0"></a>
 		<?php }
 		if ($instance['show_tw']) { ?>
-			<a href="#" class="nylosia-social-sprite nylosia-social-tw" data-link="<?php echo esc_url($link) ?>" data-twuser="<?php echo esc_attr($twuser) ?>" data-twtext="<?php echo esc_attr($name.' - '.$page_title) ?>" data-nylosia-social-title="0"></a>
+			<a href="#" class="nylosia-social-sprite nylosia-social-tw" data-nylosia-social-count="0"></a>
 		<?php }
 		if ($instance['show_gp']) { ?>
-			<a href="#" class="nylosia-social-sprite nylosia-social-gp" data-link="<?php echo esc_url($link) ?>" data-nylosia-social-title="0"></a>
+			<a href="#" class="nylosia-social-sprite nylosia-social-gp" data-nylosia-social-count="0"></a>
 		<?php }
 		if ($instance['show_in']) { ?>
-			<a href="#" class="nylosia-social-sprite nylosia-social-in" data-nylosia-social-title="0"></a>
+			<a href="#" class="nylosia-social-sprite nylosia-social-in" data-nylosia-social-count="0"></a>
 		<?php }
 		if ($instance['show_pi']) { ?>
-			<a href="#" class="nylosia-social-sprite nylosia-social-pi" data-nylosia-social-title="0"></a>
+			<a href="#" class="nylosia-social-sprite nylosia-social-pi" data-nylosia-social-count="0"></a>
 		<?php } ?>
 		</div>
 		<?php echo $args['after_widget'] ?>

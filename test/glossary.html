@@ -17,11 +17,27 @@
 
 		.cpcover { position: absolute; right: 0; font-size: 3em; padding: 10px; }
 
-		.glossary {  }
+		.glossary { 
+			position: relative;
+			overflow: hidden;
+		}
+
+		.glossary-border { 
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			box-shadow: -5px 0 5px -5px #333;
+			/* height: 100%; */
+			width: 30px;
+			/* background: red; */
+			margin-left: 42px;
+		}
 
 		.glossary-labels { 
 			float: left; 
-			padding-top: 10px;
+			padding: 5px 0;
+			/*border-right: solid 1px #eee;*/
+			/*box-shadow: 5px 0 5px -5px #333;*/
 		}
 
 		.glossary-labels a {
@@ -38,6 +54,8 @@
 			border-top: solid 1px #ddd; 
 			border-bottom: solid 1px #ddd; 
 			border-radius: 4px 0px 0px 4px;
+			-webkit-transition: background-color .7s;
+			transition: background-color .7s;
 		}
 
 		.glossary-labels a:hover {
@@ -45,7 +63,7 @@
 			margin-left: 4px;
 		}
 
-		.glossary-labels .selected {
+		.glossary-labels .glossary-selected {
 			background-color: #333;
 			color: #fff;
 		}
@@ -55,23 +73,23 @@
 			min-height: 300px;
 			/*float: left; */
 			padding: 4px;
-			box-shadow: -5px 0 5px -5px #333;
+			/*box-shadow: -5px 0 5px -5px #333;*/
 			padding-left: 10px;
 			margin-left: 41px;
 			line-height: 1.6em;
 			position: relative;
 		}
 
-		.glossary-content .label {
+		.glossary-content .glossary-title {
 			font-weight: 700;
 		}
 
-		.glossary-content .more {
+		.glossary-content .glossary-more {
 			font-size: 0.8em;
 			margin-right: 4px;
 		}
 
-		.glossary-content .key {
+		.glossary-content .glossary-key {
 			font-size: 0.8em;
 			display: block;
 			width: 20px;
@@ -79,10 +97,83 @@
 			margin: 0 auto;
 		}
 
-		.glossary-content .key-section {
+		.glossary-single .glossary-key {
+			display: none;
+		}
+
+		.glossary-content .glossary-key-section {
 			border-bottom: solid 1px #eee;
 			padding: 10px;
 		}
+
+		.solutions {
+			/*width: 100%;*/
+			height: auto;
+			float: left;
+			margin: 0 40px;
+		}
+
+		.cover_bkg {
+			position: relative;
+			float: left;
+			width: 100%;
+			height: 400px;
+			margin: 40px 0 40px 0;
+			background: no-repeat center center;
+			background: url(bg.jpg) no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			overflow: hidden;
+		}
+
+		html, body {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			font-size: 100%;
+			vertical-align: baseline;
+		}
+
+		/** s2 **/
+
+		.s2 .glossary-labels a {
+			display: block;
+			width: 40px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			margin-top: -6px;
+			margin-left: 0px;
+			text-decoration: none;
+			color: #333;
+			border-left: solid 1px #ddd;
+			border-top: solid 1px #ddd;
+			border-bottom: solid 1px #ddd;
+			border-radius: 11px 0px 0px 3px;
+			-webkit-transition: background-color .7s;
+			transition: background-color .7s;
+			background: #fff;
+		}
+
+		.s2 .glossary-labels a:hover {
+			margin-top: -8px;
+			height: 32px;
+			font-size: 1.2em;
+		}
+
+		.s2 .glossary-labels a:first-child,
+		.s2 .glossary-labels a:first-child:hover {
+			margin-top: 0;
+			font-size: 1em;
+			height: 30px;
+		}
+
+		.s2 .glossary-labels .glossary-selected {
+			background-color: #333;
+			color: #fff;
+		}		
 
     </style>
   </head>
@@ -90,117 +181,181 @@
   <body>
   	<span class="cpcover">www.zucchetti.it</span>
 
-  	<p>prima</p>
+  	<div class="solutions">
+  		<h1>Zucchetti</h1>
+  	</div>
 
-	<div class="glossary">
-		<div class="glossary-labels"></div>
-		<div class="glossary-content"></div>
+	<div class="cover_bkg"> </div>
+
+	<div class="solutions">
+
+	  	<p>prima <a href="#" onclick="$('.glossary').toggleClass('s2'); return false;">toggle s2</a></p>
+
+		<div class="glossary s2">
+			<div class="glossary-border"></div>
+			<div class="glossary-labels"></div>
+			<div class="glossary-content"></div>
+			
+		</div>
+		<div style="clear:both"></div>
+
+		<p>dopo</p>
+
 	</div>
-	<div style="clear:both"></div>
 
-	<p>dopo</p>
+	<div class="cover_bkg" style="background-image:url(02166_endeavourslaunch_1920x1080.jpg)"> </div>
 
+	<div class="solutions">
+		<p>Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.</p>
+	</div>
 
     <script src="jquery-1.11.1.min.js"></script>
     <script>
-    	$(function(){
 
-			var data = {
-				'A': {
-					'a': {
-						caption: 'azioni',
-						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
-						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
-					},
-					'append': {
-						caption: '',
-						description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.',
-						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
-					}
+		var data = {
+			'A': {
+				'a': {
+					caption: 'azioni',
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
+					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
 				},
-				'B': {
-					'bottom': {
-						caption: 'azioni',
-						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
-						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
-					},
-					'bundle': {
-						caption: '',
-						description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.',
-						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
-					}
-				},				
-				'R': {
-					'round': {
-						caption: '',
-						description: 'Quisque congue orci dolor, et convallis magna luctus sit amet. Nam eros felis, ultricies vel mauris sit amet, consectetur porttitor odio. Maecenas porttitor mattis augue at bibendum. Pellentesque ultrices, erat id ornare tristique, lectus neque ultricies odio, in venenatis diam turpis sit amet arcu.',
-						ref: [ ['99', 'pseudo codice'] ]
-					}
+				'append': {
+					caption: '',
+					description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.',
+					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+				}
+			},
+			'B': {
+				'bottom': {
+					caption: 'bottom bounds',
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a nulla a arcu vulputate gravida. Nullam pharetra non nisl ornare aliquam.',
+					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
 				},
+				'bundle': {
+					caption: '',
+					description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.',
+					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+				}
+			},				
+			'R': {
+				'round': {
+					caption: '',
+					description: 'Quisque congue orci dolor, et convallis magna luctus sit amet. Nam eros felis, ultricies vel mauris sit amet, consectetur porttitor odio. Maecenas porttitor mattis augue at bibendum. Pellentesque ultrices, erat id ornare tristique, lectus neque ultricies odio, in venenatis diam turpis sit amet arcu.',
+					ref: [ ['99', 'pseudo codice'] ]
+				}
+			},
+			'%': {
 				'%': {
-					'%': {
-						caption: 'percentuale',
-						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan felis vel condimentum adipiscing. Nullam lobortis vehicula est, rhoncus aliquet magna luctus non.',
-						ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+					caption: 'percentuale',
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan felis vel condimentum adipiscing. Nullam lobortis vehicula est, rhoncus aliquet magna luctus non.',
+					ref: [ ['146', 'costruzione elemento'], ['99', 'pseudo codice'] ]
+				}
+			}
+		};
+
+		// data = {};
+		// var aa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ%".split("");
+		// for (var ii=0; ii<aa.length; ii++) {
+		// 	var label = aa[ii];
+		// 	data[label] = {};
+		// 	data[label]['voce_' + label] = {
+		// 		caption: '',
+		// 		description: 'Quisque sagittis arcu sed dui tincidunt aliquet. Quisque eu ante nec ipsum tempor ultricies eget eu quam. Quisque mollis interdum enim, a facilisis ligula lacinia ac. In lacus lacus, tincidunt ut scelerisque a, tempor et massa. Donec eros ligula, rutrum sit amet risus vitae, accumsan porttitor velit. Vivamus non consectetur justo. Sed lacinia ipsum vel nisl condimentum sodales.'
+		// 	};
+		// }
+
+		function getGlossaryLabels() {
+			//TODO leggere etichette via ajax
+			var lbls = [];
+			for (var aa in data) {
+				lbls.push(aa);
+			}
+			return lbls;
+		}
+
+		function getGlossaryItems(label) {
+			//TODO leggere voci via ajax
+			return data[label];
+		}
+
+		function appendGlossaryItems(items, sect) {
+			for (var key in items) {
+				var par = $("<p class='glossary-key-section'>");
+				par.append( $("<span>").addClass("glossary-title").html(key) );
+
+				if (items[key].caption) {
+					par.append(" - " + items[key].caption);
+				}
+					
+				par.append("<br>").append( items[key].description );
+
+				if (items[key].ref) {
+					par.append("<br>")
+					for (var ii=0; ii<items[key].ref.length; ii++) {
+						par.append( $("<a class='glossary-more'>").html(items[key].ref[ii][1]).attr("href", "?p=" + items[key].ref[ii][0]) );
 					}
 				}
-			};
+				
+				par.appendTo( sect );
+			}			
+		}
 
-			//preparo etichette
-			for (var lbl in data) {
+    	$(function(){
+
+    		//leggo solo le etichette (A, B, C, ...) presenti nel glossario
+    		var lbls = getGlossaryLabels();
+
+			for (var ll=0; ll<lbls.length; ll++) {
+				var lbl = lbls[ll];
+
 				$(".glossary-labels").append(
-					$("<a href='#'>").html(lbl).click( function() {
+					$("<a href='#'>").html(lbl).on("click show.glossary", function(event) {
 						var lbl = $(this).html();
 
-						$(".glossary-labels a").removeClass("selected");
-						$(this).addClass("selected");
+						//console.log(event.type, lbl);
 
-						$(".glossary-content section, .glossary-content section .key").hide();
-						$(".glossary-content section[data-glossary-group=\"" + lbl + "\"]").show();
+						if (event.type == "click") {
+							$(".glossary-labels a").removeClass("glossary-selected");
+							$(this).addClass("glossary-selected");
+							$(".glossary-content section").hide();
+							$(".glossary-content").addClass("glossary-single");
+						}
+
+						var sect = $(".glossary-content section[data-glossary-group=\"" + lbl + "\"]");
+						if (sect.attr("data-glossary-loaded") !== "true") {
+							//recupero le voci per l'etichetta
+							var items = getGlossaryItems(lbl);
+							appendGlossaryItems(items, sect);
+
+							sect.attr("data-glossary-loaded", "true");
+						}
+						sect.show();
+
+						return false;
 					})
 				);
 
 				//creo la sezione
-				var sect = $("<section>").attr("data-glossary-group", lbl)
-					.hide();
+				$("<section>").attr("data-glossary-group", lbl).attr("data-glossary-loaded", "false")
+					.hide().append( $("<span>").addClass("glossary-key").html(lbl) )
+					.appendTo( $(".glossary-content") );
 
-				$("<span>").addClass("key").html(lbl).hide().appendTo( sect );
+			} //end for labels
 
-				for (var key in data[lbl]) {
-					var par = $("<p class='key-section'>");
-					par.append( $("<span>").addClass("label").html(key) );
+			//etichette per vedere tutto
+			var lall = $("<a href='#' class='all'><small>tutto</small></a>").click( function() {
+				$(".glossary-labels a").removeClass("glossary-selected").trigger("show.glossary");
+				$(".glossary-labels .all").addClass("glossary-selected");
+				$(".glossary-content").removeClass("glossary-single");
 
-					if (data[lbl][key].caption) {
-						par.append(" - " + data[lbl][key].caption);
-					}
-						
-					par.append("<br>").append( data[lbl][key].description );
+				return false;
+			});
 
-					if (data[lbl][key].ref) {
-						par.append("<br>")
-						for (var ii=0; ii<data[lbl][key].ref.length; ii++) {
-							par.append( $("<a class='more'>").html(data[lbl][key].ref[ii][1]).attr("href", "?p=" + data[lbl][key].ref[ii][0]) );
-						}
-					}
-					
-					par.appendTo( sect );
-				}
+			//$(".glossary-labels").append( lall ).prepend( lall.clone(true) );
+			$(".glossary-labels").append( lall );
 
-				$(".glossary-content").append(sect);
-			}
-
-			//etichetta per vedere tutto
-			$(".glossary-labels").append(
-				$("<a href='#'><small>tutto</small></a>").click( function() {
-					$(".glossary-labels a").removeClass("selected");
-					$(this).addClass("selected");
-
-					$(".glossary-content section, .glossary-content section .key").show();
-				})
-			);			
-
-			//seleziono la prima
-			$(".glossary-labels a:last-child").trigger("click");
+			//seleziono la prima (attenzione che non sia "tutti" altrimenti vengono letti tutti i dati)
+			$(".glossary-labels a:first-child").trigger("click");
     	})
     </script>
   </body>

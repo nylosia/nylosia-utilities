@@ -44,7 +44,7 @@
 	background: #FFF;
 	font-size: 13px;
 	color: #333;
-	content: attr(data-nylosia-social-title);
+	content: attr(data-nylosia-social-count);
 	display: block;
 	left: 0;
 	padding: 1px 0px;
