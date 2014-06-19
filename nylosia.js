@@ -116,7 +116,7 @@ jQuery(function() {
 	var image = encodeURIComponent(jQuery('meta[property="og:image"]').attr('content'));
 	var url = encodeURIComponent(jQuery('meta[property="og:url"]').attr('content'));
 	var title = jQuery('meta[property="og:title"]').attr('content');
-	var twuser = jQuery('meta[property="twitter:site"]').attr('content');
+	var twuser = (jQuery('meta[name="twitter:site"]').attr('content') || '').replace(/@/g, '');
 
 	(function(d, s, id){
 	 var js, fjs = d.getElementsByTagName(s)[0];
@@ -141,7 +141,7 @@ jQuery(function() {
 	});
 
 	jQuery(".nylosia-social-container .nylosia-social-tw").each(function(index, el) {
-		nylosiaCountTWShare(el, url);
+		//nylosiaCountTWShare(el, url);
 	}).click(function() {
 		nylosiaSocialTWShare(this, url, twuser, title);
 	});

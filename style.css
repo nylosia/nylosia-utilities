@@ -39,7 +39,8 @@
 	transition-timing-function: ease;
 }
 
-.nylosia-social-sprite:after {
+/*.nylosia-social-sprite:after {*/
+.nylosia-social-fb:after {
 	bottom: -32px;
 	background: #FFF;
 	font-size: 13px;
@@ -59,7 +60,8 @@
 	text-align: center;
 }
 
-.nylosia-social-sprite:before {
+/*.nylosia-social-sprite:before {*/
+.nylosia-social-fb:before {
 	bottom: -6px;
 	left: 4px;
 	border: solid;
